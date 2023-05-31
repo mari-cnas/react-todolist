@@ -1,4 +1,4 @@
-import { memo, ReactElement, useState } from 'react'
+import { memo, useState } from 'react'
 import * as React from 'react'
 
 import { TextField } from '@mui/material'
@@ -6,22 +6,30 @@ import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import Slide from '@mui/material/Slide'
 import { TransitionProps } from '@mui/material/transitions'
 
+type Todo = {
+  text: string
+  id: number
+}
+
 interface IEditDialogProps {
   open: boolean
-  dialogHandler: (dialogHandler: boolean) => void
+  dialogHandler: () => void
+  todo: Todo
+  editTodo: (id: number, text: string) => void
 }
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     children: React.ReactElement<any, any>
   },
   ref: React.Ref<unknown>,
 ) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Slide direction="up" ref={ref} {...props} />
 })
 
@@ -33,7 +41,7 @@ const EditDialog: React.FC<IEditDialogProps> = ({
 }) => {
   const [editedText, setEditedText] = useState(todo.text)
 
-  const textHandler = () => {
+  const textHandler = (): void => {
     editTodo(todo.id, editedText)
     dialogHandler()
   }
@@ -49,13 +57,11 @@ const EditDialog: React.FC<IEditDialogProps> = ({
     >
       <DialogTitle>Editando tarefa</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
-          <TextField
-            fullWidth
-            defaultValue={editedText}
-            onChange={(e) => setEditedText(e.target.value)}
-          />
-        </DialogContentText>
+        <TextField
+          fullWidth
+          defaultValue={editedText}
+          onChange={(e) => setEditedText(e.target.value)}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={dialogHandler}>Cancelar</Button>
