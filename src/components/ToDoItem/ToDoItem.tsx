@@ -20,7 +20,7 @@ type Todo = {
 interface IToDoItemProps {
   toDo: Todo
   deleteTodo: (id: number) => void
-  editTodo: (id: number) => void
+  editTodo: (id: number, text: string) => void
 }
 
 const ToDoItem: React.FC<IToDoItemProps> = ({ toDo, deleteTodo, editTodo }) => {
