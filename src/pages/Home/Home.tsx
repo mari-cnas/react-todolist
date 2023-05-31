@@ -11,12 +11,7 @@ type Todo = {
   id: number
 }
 
-interface IHomeProps {
-  addTodo: (todoObj: { text: string; id: number }) => void
-  editTodo: (id: number, text: string) => void
-}
-
-const Home: React.FC<IHomeProps> = () => {
+const Home: React.FC = () => {
   const [toDos, setToDos] = useState<Todo[]>([])
 
   const addTodo = (toDo: Todo): void => {

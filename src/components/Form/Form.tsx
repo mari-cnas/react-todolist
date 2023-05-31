@@ -3,11 +3,6 @@ import { memo, useState } from 'react'
 
 import { TextField, Button, Paper } from '@mui/material'
 
-// type Todo = {
-//   text: string
-//   id: number
-// }
-
 interface IFormProps {
   children?: React.ReactNode
   addTodo: (todoObj: { text: string; id: number }) => void
@@ -17,10 +12,11 @@ const Form: React.FC<IFormProps> = ({ addTodo }) => {
   const [text, setText] = useState<string>('')
   const [id, setId] = useState<number>(0)
 
-  const handleSubmit = (text: string): void => {
+  const handleSubmit = (): void => {
     const todoObj = { text, id }
     setId(id + 1)
     addTodo(todoObj)
+    setText('')
   }
 
   return (
@@ -30,9 +26,10 @@ const Form: React.FC<IFormProps> = ({ addTodo }) => {
           id="outlined-basic"
           label="Tarefa"
           variant="outlined"
+          value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <Button variant="text" onClick={() => handleSubmit(text)}>
+        <Button variant="text" onClick={() => handleSubmit()}>
           Add
         </Button>
       </div>
